@@ -1,0 +1,4 @@
+This folder contains several test-files.
+They are included in bend-test.ly and would not compile on their without the there present included files from the parent-directory.
+You may want to compile them all or a subset of the test-files.
+Up to now there is no documentation for the "bend-engraver", so you may want to look into the test-files where several parts of the functionality is tested and partly commented.
