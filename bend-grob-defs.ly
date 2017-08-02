@@ -196,6 +196,9 @@ BendMeEngraver =
       (acknowledgers
        ((tab-note-head-interface engraver grob source-engraver)
         (set! tab-note-heads (cons grob tab-note-heads)))
+       ;((bend-interface engraver grob source-engraver)
+       ; (write-me "bend-style " (ly:grob-property grob 'tweaks))
+       ; )
        ((tie-interface engraver grob source-engraver)
         (set! ties (cons grob ties))))
       ((stop-translation-timestep trans)
@@ -236,7 +239,16 @@ BendMeEngraver =
                 (fingers-to-determine-frets
                   (if (null? fingers)
                       (list (make-list (length note-events) '()))
-                      fingers))
+                      ;(append fingers
+                      ;      (make-list
+                      ;        (max 0 (- (length note-events) (length fingers)))
+                      ;        '()))
+;;;; changed!!
+                      (cons
+                        (make-list
+                          (max 0 (- (length note-events) (length fingers)))
+                          '())
+                        (reverse fingers))))
                 (unnest-list-one-level
                   (lambda (ls)
                     (append-map (lambda (x) (if (pair? x) x (list x))) ls)))
@@ -249,25 +261,24 @@ BendMeEngraver =
                     context
                     note-events
                     list-for-determine-frets)))
-
           ;; exclude tied notes from being bent, if Tie.bend-me is set #f
           (if (not (null? ties))
               (for-each
                 (lambda (tie)
                   (let ((tie-bounds
                           (list
-	                        (ly:spanner-bound tie LEFT)
-	                        (ly:spanner-bound tie RIGHT))))
-	                (for-each
-	                  (lambda (bound)
-	                    (if (and (ly:grob? bound)
-	                             (not (ly:grob-property tie 'bend-me)))
-	                        (ly:grob-set-property! bound 'bend-me #f)))
-	                  tie-bounds)))
-	            ties))
+                            (ly:spanner-bound tie LEFT)
+                            (ly:spanner-bound tie RIGHT))))
+                    (for-each
+                      (lambda (bound)
+                        (if (and (ly:grob? bound)
+                                 (not (ly:grob-property tie 'bend-me)))
+                            (ly:grob-set-property! bound 'bend-me #f)))
+                      tie-bounds)))
+                ties))
 
-	      ;; exlude open strings from being bent,
-	      ;; if TabNoteHead.bend-me is unset, i.e. '()
+          ;; exlude open strings from being bent,
+          ;; if TabNoteHead.bend-me is unset, i.e. '()
           (for-each
             (lambda (tnh strg-frt-fngr)
               (if (and (list? strg-frt-fngr)
