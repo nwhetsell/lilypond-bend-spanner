@@ -60,38 +60,38 @@
 %\new TabVoice { ais\startBend b\stopBend }
 
 
-  
+
 %% current default
 %% open strings are not bendable, neither starting nor ending a bend
 %% it's possible to set single notes bendable
-\new TabVoice 
-  { 
-  	  ais\startBend \tweak bend-me ##t b\stopBend 
-  	  <d ais>\startBend <d \tweak bend-me ##t b>\stopBend 
+\new TabVoice
+  {
+  	  ais\startBend \tweak bend-me ##t b\stopBend
+  	  <d ais>\startBend <d \tweak bend-me ##t b>\stopBend
   }
-  
+
 %% most brute-force
 %% excluding notes from bend doesn't work any more
-\new TabVoice 
+\new TabVoice
   \with { \remove \BendMeEngraver }
   { ais\startBend b\stopBend }
 
-%% current default 
+%% current default
 %% but set all notes bendable in \with
-\new TabVoice 
+\new TabVoice
   \with { \override TabNoteHead.bend-me = ##t }
-  { 
-  	  ais\startBend b\stopBend 
-  	  <d ais>\startBend <d b>\stopBend 
+  {
+  	  ais\startBend b\stopBend
+  	  <d ais>\startBend <d b>\stopBend
   }
-  
-%% set all notes bendable in \with 
+
+%% set all notes bendable in \with
 %% exclude single notes
 %% make this the default?
-\new TabVoice 
+\new TabVoice
   \with { \override TabNoteHead.bend-me = ##t }
-  { 
-  	  ais\startBend  b\stopBend 
-  	  <\tweak bend-me ##f d ais>\startBend 
-  	  <\tweak bend-me ##f d b>\stopBend 
+  {
+  	  ais\startBend  b\stopBend
+  	  <\tweak bend-me ##f d ais>\startBend
+  	  <\tweak bend-me ##f d b>\stopBend
   }

@@ -23,10 +23,10 @@ The actual formating relies on the settings in @var{alist}."
 #(define (get-quarter-diffs pitch-list-pair)
     "Takes @var{pitch-list-pair}, which is supposed to be a pair of lists, both
 containing pitches, previously sorted with @code{ly:pitch<?}.
-Returns a quarter-tone-diff-number calculated from the highest pitches from the 
+Returns a quarter-tone-diff-number calculated from the highest pitches from the
 two sub-lists."
 
-;; Bendings to different amounts are very unlikely, so we take the last pitch 
+;; Bendings to different amounts are very unlikely, so we take the last pitch
 ;; of every sublist for comparison.
 ;; Relies on sorted sublists via @code{ly:pitch<?} and both not empty
   (let* ((first-pitch-list (car pitch-list-pair))
@@ -47,7 +47,7 @@ be done 'before-line-breaking"
 ;; `bend::target-cautionary' is used before-line-breaking in grob-def
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;(newline)
-;(write-me "bend::remove-certain-tab-note-heads is called in\t" 
+;(write-me "bend::remove-certain-tab-note-heads is called in\t"
 ;          'bend::target-cautionary)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (for-each
@@ -55,7 +55,7 @@ be done 'before-line-breaking"
          (ly:grob-set-property! right-tab-nh 'display-cautionary #t))
        right-note-heads)))
 
-#(define (bend::text-string spanner) 
+#(define (bend::text-string spanner)
 ;(pretty-print left-right-pitches)
   "Takes a spanner-grob, calculates a list with the quarter-tone-diffs between
 the pitches of starting and ending bound.  Returns only the first element of
@@ -241,7 +241,7 @@ note-head of its bounding note-column."
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         ;; last of broken bend-spanner
         ;; with current coding a single BendSpanner can't cover two line-breaks
-        ;; TODO Not, true! Take long ties notes into account, they _can_ span 
+        ;; TODO Not, true! Take long ties notes into account, they _can_ span
         ;; several lines!!
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         ;; simply take the right-bound coordinate
@@ -266,8 +266,8 @@ note-head of its bounding note-column."
   "Calculates the starting value in X-direction of the bend.
 After a line-break, the values from the right-bound are taken minus 1.5
 staff-spaces.
-For bends-down or if grob-property 'style equals to 'pre-bend, 'hold or 
-'pre-bend-hold, @code{interval-center} is applied the top-most notehead of the 
+For bends-down or if grob-property 'style equals to 'pre-bend, 'hold or
+'pre-bend-hold, @code{interval-center} is applied the top-most notehead of the
 starting note-heads.
 In any other case the right edge of the starting note-head is used. The value
 of @code{BendSpanner.details.horizontal-left-padding} is added, which may be
@@ -293,7 +293,7 @@ Returns a list of same length as the amount of bend-starting note-heads."
                 (* 1.5 staff-space))))
           ((or (negative? quarter-tone-diffs)
                (eq? style 'pre-bend)
-               (eq? style 'pre-bend-hold) 
+               (eq? style 'pre-bend-hold)
                (eq? style 'hold)
                (> factor 1))
            (make-list
@@ -306,7 +306,7 @@ Returns a list of same length as the amount of bend-starting note-heads."
                 (car bounding-noteheads))))))
 
 #(define* (bend::calc-start-end-y-coords
-            bend-spanner staff-space tab-note-heads 
+            bend-spanner staff-space tab-note-heads
             #:optional quarter-tones-diffs)
   "Calculates Y-coordinate of the bend-spanners start in relation to
 @var{tab-note-heads}.

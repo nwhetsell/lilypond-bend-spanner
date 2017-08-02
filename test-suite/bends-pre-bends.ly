@@ -30,7 +30,7 @@ mus-pre-bend = {
 }
 
 mus-pre-bend-line-break = {
-	
+
   a'1\preBend\startBend \break b'\stopBend
 
   \bar "|."

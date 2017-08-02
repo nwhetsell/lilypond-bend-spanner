@@ -15,7 +15,7 @@ mus-consecutive-bend = {
   <c'\3-1 bes\4-4 a, e'>4 \startBend
     <d'\3-2>\stopBend \bendStencilTweak 2 \startBend
     e'\3 \stopBend
-    
+
 
   c'4\3\startBend
     d'\3\stopBend \bendStencilTweak 2 \startBend

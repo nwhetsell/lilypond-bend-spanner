@@ -26,7 +26,7 @@
      (set! all-grob-descriptions
            (cons (cons grob-name grob-entry)
                  all-grob-descriptions))))
-                 
+
 #(define (define-grob-property symbol type? description)
   (if (not (equal? (object-property symbol 'backend-doc) #f))
       (ly:error (_ "symbol ~S redefined") symbol))
@@ -38,8 +38,8 @@
 #(for-each
   (lambda (x)
     (apply define-grob-property x))
-    `((bend-me 
-      ,boolean? 
+    `((bend-me
+      ,boolean?
       "DOCME")))
 
 #(define bend-amount-strings-alist
@@ -155,7 +155,7 @@ start and stop.")
        (sort music-descriptions alist<?))
 
 #(define (add-bound-item context spanner item)
-  (if (null? (ly:spanner-bound spanner LEFT))     
+  (if (null? (ly:spanner-bound spanner LEFT))
       (ly:spanner-set-bound! spanner LEFT item)
       (ly:spanner-set-bound! spanner RIGHT item)))
 
@@ -181,7 +181,7 @@ BendMeEngraver =
         (ties '())
         (tab-note-heads '()))
     (make-engraver
-      ((start-translation-timestep trans) 
+      ((start-translation-timestep trans)
         (set! note-events '())
         (set! tab-note-heads '())
         (set! fingerings '())
@@ -193,23 +193,23 @@ BendMeEngraver =
           (set! string-numbers (cons event string-numbers)))
         ((fingering-event engraver event)
           (set! fingerings (cons event fingerings))))
-      (acknowledgers 
+      (acknowledgers
        ((tab-note-head-interface engraver grob source-engraver)
         (set! tab-note-heads (cons grob tab-note-heads)))
        ((tie-interface engraver grob source-engraver)
         (set! ties (cons grob ties))))
       ((stop-translation-timestep trans)
-        (let* ((arts 
-                 (map 
-                   (lambda (nv) (ly:event-property nv 'articulations)) 
+        (let* ((arts
+                 (map
+                   (lambda (nv) (ly:event-property nv 'articulations))
                    note-events))
                (strings-from-articulations
                  (map
                    (lambda (a)
                      (filter
-                       (lambda (x) 
-                         (member 
-                           'string-number-event 
+                       (lambda (x)
+                         (member
+                           'string-number-event
                            (ly:event-property x 'class)))
                        a))
                    arts))
@@ -225,7 +225,7 @@ BendMeEngraver =
                   (map
                     (lambda (a)
                      (filter
-                      (lambda (x) 
+                      (lambda (x)
                         (member 'fingering-event (ly:event-property x 'class)))
                       a))
                     arts))
@@ -241,15 +241,15 @@ BendMeEngraver =
                   (lambda (ls)
                     (append-map (lambda (x) (if (pair? x) x (list x))) ls)))
                 (list-for-determine-frets
-                    (list 
+                    (list
                       (unnest-list-one-level strings-to-determine-frets)
                       (unnest-list-one-level fingers-to-determine-frets)))
                 (string-fret-fingers
                   ((ly:context-property context 'noteToFretFunction)
-                    context 
+                    context
                     note-events
                     list-for-determine-frets)))
-                    
+
           ;; exclude tied notes from being bent, if Tie.bend-me is set #f
           (if (not (null? ties))
               (for-each
@@ -265,12 +265,12 @@ BendMeEngraver =
 	                        (ly:grob-set-property! bound 'bend-me #f)))
 	                  tie-bounds)))
 	            ties))
-                     
-	      ;; exlude open strings from being bent, 
+
+	      ;; exlude open strings from being bent,
 	      ;; if TabNoteHead.bend-me is unset, i.e. '()
           (for-each
             (lambda (tnh strg-frt-fngr)
-              (if (and (list? strg-frt-fngr) 
+              (if (and (list? strg-frt-fngr)
                        (number? (cadr strg-frt-fngr))
                        (zero? (cadr strg-frt-fngr))
                        (null? (ly:grob-property tnh 'bend-me)))
@@ -279,7 +279,7 @@ BendMeEngraver =
             string-fret-fingers)))
       ((finalize trans)
        (set! ties '())))))
-         
+
 BendSpannerEngraver =
 #(lambda (context)
   (let ((span '())
@@ -335,7 +335,7 @@ haven't started one.")
              (set! finished '())
              (set! event-start '())
              (set! event-stop '()))))
-      ((finalize trans) 
+      ((finalize trans)
        (if (ly:spanner? finished)
            (begin
              (if (null? (ly:spanner-bound finished RIGHT))
