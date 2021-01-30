@@ -1,4 +1,4 @@
-\version "2.19.46"
+\version "2.22.0"
 
 #(define (bend::text-stencil x y text)
   "Returns a stencil which prints the bends amount, translated to the end of
@@ -36,7 +36,7 @@ translated to @var{end-curve-coords}, the end of the bends (curved) line."
              0 (* height dir))))
     (ly:stencil-translate
       (ly:make-stencil
-        `(polygon ',pts-list ,thickness #t)
+        `(polygon ,pts-list ,thickness #t)
         (interval-widen (cons (/ width -2) (/ width 2)) (/ thickness 2))
         (interval-widen (ordered-cons 0 (* height dir)) (/ thickness 2)))
       end-curve-coords)))

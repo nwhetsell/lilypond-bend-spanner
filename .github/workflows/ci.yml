@@ -1,0 +1,68 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  Linux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Install LilyPond
+      run: |
+        wget --no-verbose https://lilypond.org/download/binaries/linux-64/lilypond-2.22.0-1.linux-64.sh
+        sudo sh lilypond-2.22.0-1.linux-64.sh --batch
+
+    - name: Run tests
+      run: lilypond test-suite/bend-test.ly
+
+    - name: Archive
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ runner.os }} artifacts
+        path: bend-test.pdf
+        if-no-files-found: error
+
+  macOS:
+    runs-on: macos-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Install LilyPond
+      run: |
+        brew install --cask mactex-no-gui
+        brew tap nwhetsell/lilypond
+        brew install lilypond
+
+    - name: Run tests
+      run: lilypond test-suite/bend-test.ly
+
+    - name: Archive
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ runner.os }} artifacts
+        path: bend-test.pdf
+        if-no-files-found: error
+
+  Windows:
+    runs-on: windows-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Install LilyPond
+      run: |
+        choco install lilypond --version=2.22.0 --no-progress
+        Add-Content $Env:GITHUB_PATH "${Env:ProgramFiles(x86)}\LilyPond\usr\bin" -Encoding utf8
+
+    - name: Run tests
+      run: lilypond test-suite\bend-test.ly
+
+    - name: Archive
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ runner.os }} artifacts
+        path: bend-test.pdf
+        if-no-files-found: error
