@@ -1,7 +1,5 @@
 # lilypond-bend-spanner
 
-[![Actions](https://github.com/nwhetsell/lilypond-bend-spanner/workflows/CI/badge.svg)](https://github.com/nwhetsell/lilypond-bend-spanner/actions?workflow=CI)
-
 This is a copy of the lilypond-bend-spanner repository available at
 https://pagure.io/lilypond-bend-spanner, but updated to work with LilyPond
 2.22.0. (LilyPond commit [`06ba7f0823a14da773391ccf3c10244a54e812d4`](https://git.savannah.gnu.org/cgit/lilypond.git/commit/?id=06ba7f0823a14da773391ccf3c10244a54e812d4)
