@@ -30,7 +30,7 @@ jobs:
       run: lilypond test-suite/bend-test.ly
 
     - name: Archive
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@main
       with:
         name: ${{ runner.os }} artifacts
         path: bend-test.pdf
