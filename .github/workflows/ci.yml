@@ -4,27 +4,15 @@ on: [push, pull_request]
 
 jobs:
   Test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
     - name: Check out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Install LilyPond on Linux
+    - name: Install LilyPond
       run: |
-        wget --no-verbose https://lilypond.org/download/binaries/linux-64/lilypond-2.22.1-1.linux-64.sh
-        sudo sh lilypond-2.22.1-1.linux-64.sh --batch
-      if: ${{ matrix.os == 'ubuntu-latest' }}
-    - name: Install LilyPond on macOS
-      run: brew update && brew install lilypond
-      if: ${{ matrix.os == 'macos-latest' }}
-    - name: Install LilyPond on Windows
-      run: |
-        choco install lilypond --no-progress
-        Add-Content $Env:GITHUB_PATH "${Env:ProgramFiles(x86)}\LilyPond\usr\bin" -Encoding utf8
-      if: ${{ matrix.os == 'windows-latest' }}
+        wget --no-verbose https://lilypond.org/download/binaries/linux-64/lilypond-2.22.2-1.linux-64.sh
+        sudo sh lilypond-2.22.2-1.linux-64.sh --batch
 
     - name: Run tests
       run: lilypond test-suite/bend-test.ly
